@@ -44,18 +44,14 @@ const Navbar = (props) => {
       <NavbarLinksContainer>
         <React.Fragment>
           <NavbarLink to="/">Main Page</NavbarLink>
-          <NavbarLink currentUser={currentUser} to="/registration">
-            Registration
-          </NavbarLink>
-          {currentUser.username === "Guest" ? (
-            <NavbarLink currentUser={currentUser} to="/">
-              Guest to Main Fun:D
-            </NavbarLink>
-          ) : (
-            ""
-          )}
+          <NavbarLink to="/registration">Registration</NavbarLink>
+          <NavbarLink to="/login">Login</NavbarLink>
+          <div>
+            {currentUser.username
+              ? "Logged in as  " + currentUser.username
+              : "Not logged in"}
+          </div>
         </React.Fragment>
-        <div>Logged in as {currentUser.username}</div>
       </NavbarLinksContainer>
     </NavbarMain>
   );
