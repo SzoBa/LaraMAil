@@ -11,7 +11,6 @@ const NavbarTitle = styled.h1`
   color: black;
   font-size: 4em;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-  padding-left: 3%;
 `;
 
 const NavbarLinksContainer = styled.div`
@@ -39,7 +38,7 @@ const Navbar = (props) => {
   const currentUser = useContext(UserContext)[0];
 
   return (
-    <NavbarMain className="navBar" currentUser={currentUser}>
+    <NavbarMain currentUser={currentUser}>
       <NavbarTitle>Lara Mail</NavbarTitle>
       <NavbarLinksContainer>
         <React.Fragment>
