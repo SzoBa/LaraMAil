@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import UsePostData from "../../hooks/UsePostData";
 
 const RegistrationPage = (props) => {
   const history = useHistory();
+  const [registrationError, setRegistrationError] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -13,10 +14,13 @@ const RegistrationPage = (props) => {
       password: event.target.elements.password.value,
     };
     UsePostData("http://laramail.com/api/register", userObject, (response) => {
-      console.log(response);
+      if (response.status === 201) {
+        setRegistrationError("");
+        history.push("/");
+      } else {
+        setRegistrationError("Error occurred");
+      }
     });
-
-    history.push("/");
   };
 
   return (
@@ -43,6 +47,7 @@ const RegistrationPage = (props) => {
         </div>
         <button type="submit">Register</button>
       </form>
+      <div>{registrationError}</div>
     </div>
   );
 };
