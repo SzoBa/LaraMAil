@@ -14,7 +14,7 @@ const UsePostData = (url, dataObject, callback) => {
 
   postData()
     .then((result) => {
-      callback(result.data);
+      callback(result);
     })
     .catch((error) => console.error(error));
 };
