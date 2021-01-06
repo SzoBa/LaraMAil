@@ -22,6 +22,7 @@ const SideBar = (props) => {
       <SidebarLink to="/mail/inbox">Incoming</SidebarLink>
       <SidebarLink to="/mail/sent">Sent</SidebarLink>
       <SidebarLink to="/mail/compose">Write mail</SidebarLink>
+      <SidebarLink to="/mail/drafts">Drafts</SidebarLink>
     </SidebarContainer>
   );
 };
