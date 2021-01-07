@@ -14,9 +14,11 @@ const UsePutData = (url, dataObject, callback) => {
 
   putData()
     .then((result) => {
-      callback(result);
+      return callback(result);
     })
-    .catch((error) => console.error(error));
+    .catch((error) => {
+      return callback(error.response.data);
+    });
 };
 
 export default UsePutData;
