@@ -5,7 +5,7 @@ export const UserContext = createContext();
 export const UserContextProvider = (props) => {
   const [user, setUser] = useState({
     username: "",
-    email: "",
+    token: "",
   });
 
   return (
