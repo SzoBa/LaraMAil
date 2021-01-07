@@ -19,10 +19,12 @@ const UsePostData = (url, token, dataObject, callback) => {
 
   postData()
     .then((result) => {
-      return callback(result);
+      callback(result);
     })
     .catch((error) => {
-      return callback(error.response.data);
+      if (error.response) {
+        callback(error.response.data);
+      }
     });
 };
 
