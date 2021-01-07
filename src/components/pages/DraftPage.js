@@ -1,8 +1,32 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import UsePutData from "../../hooks/UsePutData";
 
 const DraftPage = (props) => {
-  const handleSubmit = (event) => {};
+  const history = useHistory();
+  const [errorMessage, setErrorMessage] = useState([]);
+  const [value, setValue] = useState("**Markdown Syntax!!!**");
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const emailObject = {
+      name: event.target.elements.address.value,
+      message: value,
+    };
+
+    UsePutData("http://laramail.com/api/login", emailObject, (response) => {
+      if (response.status === 201) {
+        // setErrorMessage([]);
+        //TODO add message
+        history.push("/mail/inbox");
+      }
+      Object.entries(response).forEach(([k, v]) => {
+        v.forEach((value) => {
+          setErrorMessage((old) => [...old, value]);
+        });
+      });
+    });
+  };
 
   return (
     <div>
@@ -22,6 +46,11 @@ const DraftPage = (props) => {
         </div>
         <button type="submit">Send email</button>
       </form>
+      <div>
+        {errorMessage === null
+          ? ""
+          : errorMessage.map((data, index) => <p key={index}>{data}</p>)}
+      </div>
     </div>
   );
 };
