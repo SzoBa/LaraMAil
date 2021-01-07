@@ -1,7 +1,12 @@
 import axios from "axios";
 
-const UsePostData = (url, dataObject, callback) => {
+const UsePostData = (url, token, dataObject, callback) => {
   const options = {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json, text/plain, */*",
+      Authorization: "Bearer " + token,
+    },
     url: url,
     method: "post",
     data: dataObject,
@@ -14,9 +19,11 @@ const UsePostData = (url, dataObject, callback) => {
 
   postData()
     .then((result) => {
-      callback(result);
+      return callback(result);
     })
-    .catch((error) => console.error(error));
+    .catch((error) => {
+      return callback(error.response.data);
+    });
 };
 
 export default UsePostData;
