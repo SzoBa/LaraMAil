@@ -5,7 +5,7 @@ import UsePostData from "../../hooks/UsePostData";
 
 const RegistrationPage = (props) => {
   const history = useHistory();
-  const [registrationError, setRegistrationError] = useState([]);
+  const [errorMessage, setErrorMessage] = useState([]);
   const user = useContext(UserContext)[0];
 
   const handleSubmit = (event) => {
@@ -21,13 +21,13 @@ const RegistrationPage = (props) => {
       user.token,
       userObject,
       (response) => {
-        setRegistrationError([]);
+        setErrorMessage([]);
         if (response.status === 201) {
           history.push("/");
         }
         Object.entries(response).forEach(([k, v]) => {
           v.forEach((value) => {
-            setRegistrationError((old) => [...old, k + ": " + value]);
+            setErrorMessage((old) => [...old, k + ": " + value]);
           });
         });
       }
@@ -65,9 +65,9 @@ const RegistrationPage = (props) => {
         <button type="submit">Register</button>
       </form>
       <div>
-        {registrationError === null
+        {errorMessage === null
           ? ""
-          : registrationError.map((data, index) => <p key={index}>{data}</p>)}
+          : errorMessage.map((data, index) => <p key={index}>{data}</p>)}
       </div>
     </div>
   );
