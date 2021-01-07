@@ -1,26 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import UsePostData from "../../hooks/UsePostData";
+import { UserContext } from "../../containers/contexts/UserContext";
 
 const LoginPage = (props) => {
   const history = useHistory();
-  const [loginError, setLoginError] = useState("");
+  const [errorMessage, setErrorMessage] = useState([]);
+  const [user, setUser] = useContext(UserContext);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const userObject = {
-      username: event.target.elements.username.value,
+      email: event.target.elements.email.value,
       password: event.target.elements.password.value,
     };
-    UsePostData("http://laramail.com/api/login", userObject, (response) => {
-      if (response.status === 200) {
-        setLoginError("");
-        history.push("/");
-      } else {
-        setLoginError("Error ocurred");
+    UsePostData(
+      "http://laramail.com/api/login",
+      user.token,
+      userObject,
+      (response) => {
+        setErrorMessage([]);
+        if (response.status === 201) {
+          setUser({
+            username: response.data.username,
+            token: response.data.token,
+          });
+          history.push("/mail/inbox");
+        }
+        Object.entries(response).forEach(([k, v]) => {
+          v.forEach((value) => {
+            setErrorMessage((old) => [...old, value]);
+          });
+        });
       }
-    });
-
-    history.push("/");
+    );
   };
 
   return (
@@ -29,8 +42,8 @@ const LoginPage = (props) => {
       <form method="post" onSubmit={handleSubmit}>
         <div>
           <label>
-            Username:
-            <input type="text" name="username" />
+            Email:
+            <input type="email" name="email" />
           </label>
         </div>
         <div>
@@ -41,7 +54,11 @@ const LoginPage = (props) => {
         </div>
         <button type="submit">Login</button>
       </form>
-      <div>{loginError}</div>
+      <div>
+        {errorMessage === null
+          ? ""
+          : errorMessage.map((data, index) => <p key={index}>{data}</p>)}
+      </div>
     </div>
   );
 };
