@@ -10,7 +10,6 @@ const InboxPage = (props) => {
     user.token,
     setErrorMessage
   )[1];
-
   return (
     <div>
       <h1>This is the inbox page</h1>
@@ -26,7 +25,6 @@ const InboxPage = (props) => {
         <tbody>
           {Object.keys(mailData).map((key, index) => (
             <tr key={index}>
-              <td>{mailData[key]}</td>
               <td>{mailData[key]["subject"]}</td>
               <td>{mailData[key]["message"]}</td>
               <td>{mailData[key]["name"]}</td>
