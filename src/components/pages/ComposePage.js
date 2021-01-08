@@ -1,22 +1,32 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import UsePostData from "../../hooks/UsePostData";
 import { UserContext } from "../../containers/contexts/UserContext";
 import MDEditor from "@uiw/react-md-editor";
+import UsePutData from "../../hooks/UsePutData";
 
 const ComposePage = (props) => {
   const history = useHistory();
   const user = useContext(UserContext)[0];
+  const [redirect, setRedirect] = useState(false);
   const [errorMessage, setErrorMessage] = useState([]);
   const [value, setValue] = useState("**Markdown Syntax!!!**");
 
+  let sendOrSave = "save";
+
+  useEffect(() => {
+    if (redirect) {
+      setTimeout(() => history.push("/mail/inbox"), 1500);
+    }
+  }, [redirect, history]);
+
+  const clickHandler = (event) => {
+    sendOrSave = event.target.name;
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const emailObject = {
-      name: event.target.elements.address.value,
-      subject: event.target.elements.subject.value,
-      message: value,
-    };
+    const emailObject = createEmailObject(event, value);
     UsePostData(
       "http://laramail.com/api/mail",
       user.token,
@@ -24,17 +34,12 @@ const ComposePage = (props) => {
       (response) => {
         setErrorMessage([]);
         if (response.status === 201) {
-          return history.push("/mail/inbox");
+          sendOrSave === "send"
+            ? sendEmail(response, user, history, setErrorMessage)
+            : (response = saveEmail(setRedirect, response));
         }
-        Object.entries(response).forEach(([k, v]) => {
-          if (v instanceof Array) {
-            v.forEach((value) => {
-              setErrorMessage((old) => [...old, value]);
-            });
-          } else {
-            setErrorMessage((old) => [...old, v]);
-          }
-        });
+
+        handleErrorMessages(response, setErrorMessage);
       }
     );
   };
@@ -42,7 +47,7 @@ const ComposePage = (props) => {
   return (
     <div>
       <h1>This is the e-mail sending page</h1>
-      <form method="put" onSubmit={handleSubmit}>
+      <form method="post" onSubmit={handleSubmit}>
         <div>
           <div>
             <label>
@@ -61,7 +66,12 @@ const ComposePage = (props) => {
             {/* <MDEditor.Markdown source={value} /> */}
           </div>
         </div>
-        <button type="submit">Send email</button>
+        <button type="submit" name="save" onClick={clickHandler}>
+          Save email
+        </button>
+        <button type="submit" name="send" id="send" onClick={clickHandler}>
+          Send mail
+        </button>
       </form>
       <div>
         {errorMessage === null
@@ -73,3 +83,48 @@ const ComposePage = (props) => {
 };
 
 export default ComposePage;
+
+function createEmailObject(event, value) {
+  return {
+    name: event.target.elements.address.value,
+    subject: event.target.elements.subject.value,
+    message: value,
+  };
+}
+
+function handleErrorMessages(response, setErrorMessage) {
+  if (!response.data) {
+    Object.entries(response).forEach(([k, v]) => {
+      if (v instanceof Array) {
+        v.forEach((value) => {
+          setErrorMessage((old) => [...old, value]);
+        });
+      } else {
+        setErrorMessage((old) => [...old, v]);
+      }
+    });
+  }
+}
+
+function saveEmail(setRedirect, response) {
+  document.querySelector("#send").setAttribute("disabled", "true");
+  setRedirect(true);
+  response = { message: "Save successful!" };
+  return response;
+}
+
+function sendEmail(response, user, history, setErrorMessage) {
+  UsePutData(
+    `http://laramail.com/api/mail/${response.data.id}`,
+    user.token,
+    { sent: true },
+    (putResponse) => {
+      if (putResponse.status === 201) {
+        return history.push("/mail/inbox");
+      } else {
+        //There will be a better response from API
+        setErrorMessage(["Sent failed!"]);
+      }
+    }
+  );
+}
