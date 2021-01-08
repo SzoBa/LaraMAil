@@ -119,10 +119,9 @@ function sendEmail(response, user, history, setErrorMessage) {
     user.token,
     { sent: true },
     (putResponse) => {
-      if (putResponse.status === 201) {
+      if (putResponse.status === 204) {
         return history.push("/mail/inbox");
       } else {
-        //There will be a better response from API
         setErrorMessage(["Sent failed!"]);
       }
     }
