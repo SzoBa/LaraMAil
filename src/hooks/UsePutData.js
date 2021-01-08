@@ -1,7 +1,12 @@
 import axios from "axios";
 
-const UsePutData = (url, dataObject, callback) => {
+const UsePutData = (url, token, dataObject, callback) => {
   const options = {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json, text/plain, */*",
+      Authorization: "Bearer " + token,
+    },
     url: url,
     method: "put",
     data: dataObject,
@@ -17,7 +22,9 @@ const UsePutData = (url, dataObject, callback) => {
       return callback(result);
     })
     .catch((error) => {
-      return callback(error.response.data);
+      if (error.response) {
+        callback(error.response.data);
+      }
     });
 };
 
