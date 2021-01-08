@@ -6,7 +6,7 @@ import MDEditor from "@uiw/react-md-editor";
 
 const ComposePage = (props) => {
   const history = useHistory();
-  const user = useContext(UserContext);
+  const user = useContext(UserContext)[0];
   const [errorMessage, setErrorMessage] = useState([]);
   const [value, setValue] = useState("**Markdown Syntax!!!**");
 
@@ -17,7 +17,6 @@ const ComposePage = (props) => {
       subject: event.target.elements.subject.value,
       message: value,
     };
-
     UsePostData(
       "http://laramail.com/api/mail",
       user.token,
@@ -25,10 +24,8 @@ const ComposePage = (props) => {
       (response) => {
         setErrorMessage([]);
         if (response.status === 201) {
-          setErrorMessage(response.data);
-          history.push("/mail/inbox");
+          return history.push("/mail/inbox");
         }
-
         Object.entries(response).forEach(([k, v]) => {
           if (v instanceof Array) {
             v.forEach((value) => {
