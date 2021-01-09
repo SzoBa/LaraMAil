@@ -38,6 +38,26 @@ const InboxPage = (props) => {
     );
   };
 
+  const markUnreadClickHandler = (e, props) => {
+    e.stopPropagation();
+    props.is_read = false;
+    UsePutData(
+      `http://laramail.com/api/mail/${props.id}`,
+      user.token,
+      { is_read: false },
+      (response) => {
+        if (response.status === 204) {
+          return setErrorMessage({ message: "E-mail marked as unread." });
+        }
+        Object.entries(response).forEach(([k, v]) => {
+          v.forEach((value) => {
+            setErrorMessage((old) => [...old, value]);
+          });
+        });
+      }
+    );
+  };
+
   const deleteClickHandler = (e, id) => {
     e.stopPropagation();
     e.currentTarget.closest("tr").remove();
@@ -86,6 +106,14 @@ const InboxPage = (props) => {
                   onClick={(e) => deleteClickHandler(e, mailData[key]["id"])}
                 >
                   Delete
+                </button>
+              </td>
+              <td>
+                <button
+                  type="button"
+                  onClick={(e) => markUnreadClickHandler(e, mailData[key])}
+                >
+                  Mark as unread
                 </button>
               </td>
             </Row>
