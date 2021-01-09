@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import UseGetData from "../../hooks/UseGetData";
 import { UserContext } from "../../containers/contexts/UserContext";
+import UseDeleteData from "../../hooks/UseDeleteData";
 
 const SentPage = (props) => {
   const user = useContext(UserContext)[0];
@@ -11,6 +12,24 @@ const SentPage = (props) => {
     setErrorMessage
   )[1];
 
+  const deleteClickHandler = (e, id) => {
+    e.stopPropagation();
+    e.currentTarget.closest("tr").remove();
+    UseDeleteData(
+      `http://laramail.com/api/mail/${id}`,
+      user.token,
+      (response) => {
+        if (response.status === 204) {
+          return setErrorMessage({ message: "Delete successful!" });
+        }
+        Object.entries(response).forEach(([k, v]) => {
+          v.forEach((value) => {
+            setErrorMessage((old) => [...old, value]);
+          });
+        });
+      }
+    );
+  };
   return (
     <div>
       <h1>This is the sent page</h1>
@@ -30,6 +49,14 @@ const SentPage = (props) => {
               <td>{mailData[key]["message"].split(" ")[0]}...</td>
               <td>{mailData[key]["name"]}</td>
               <td>{mailData[key]["created"]}</td>
+              <td>
+                <button
+                  type="button"
+                  onClick={(e) => deleteClickHandler(e, mailData[key]["id"])}
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
