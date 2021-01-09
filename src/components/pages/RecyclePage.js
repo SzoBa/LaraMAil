@@ -57,7 +57,7 @@ const RecyclePage = (props) => {
 
   return (
     <div>
-      <h1>This is the draft page</h1>
+      <h1>This is the recycle page</h1>
       <table>
         <thead>
           <tr>
@@ -96,6 +96,8 @@ const RecyclePage = (props) => {
                 >
                   Delete
                 </button>
+              </td>
+              <td>
                 <button
                   type="button"
                   onClick={(e) => restoreClickHandler(e, mailData[key]["id"])}
