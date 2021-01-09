@@ -1,8 +1,16 @@
 import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import UseGetData from "../../hooks/UseGetData";
+import UsePutData from "../../hooks/UsePutData";
 import { UserContext } from "../../containers/contexts/UserContext";
+import styled from "styled-components";
+
+const Row = styled.tr`
+  font-weight: ${(props) => (props.isRead ? "" : "bold")};
+`;
 
 const InboxPage = (props) => {
+  const history = useHistory();
   const user = useContext(UserContext)[0];
   const [errorMessage, setErrorMessage] = useState([]);
   const mailData = UseGetData(
@@ -10,6 +18,25 @@ const InboxPage = (props) => {
     user.token,
     setErrorMessage
   )[1];
+
+  const editClickHandler = (event, props) => {
+    UsePutData(
+      `http://laramail.com/api/mail/${props.id}`,
+      user.token,
+      { is_read: true },
+      (response) => {
+        if (response.status === 204) {
+          return history.push(`/mail/view/${props.id}`);
+        }
+        Object.entries(response).forEach(([k, v]) => {
+          v.forEach((value) => {
+            setErrorMessage((old) => [...old, value]);
+          });
+        });
+      }
+    );
+  };
+
   return (
     <div>
       <h1>This is the inbox page</h1>
@@ -24,12 +51,16 @@ const InboxPage = (props) => {
         </thead>
         <tbody>
           {Object.keys(mailData).map((key, index) => (
-            <tr key={index}>
+            <Row
+              onClick={(e) => editClickHandler(e, mailData[key])}
+              key={index}
+              isRead={mailData[key]["is_read"]}
+            >
               <td>{mailData[key]["subject"]}</td>
-              <td>{mailData[key]["message"]}</td>
+              <td>{mailData[key]["message"].split(" ")[0]}... </td>
               <td>{mailData[key]["name"]}</td>
               <td>{mailData[key]["created"]}</td>
-            </tr>
+            </Row>
           ))}
         </tbody>
       </table>
