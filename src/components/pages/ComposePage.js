@@ -47,24 +47,22 @@ const ComposePage = (props) => {
   return (
     <div>
       <h1>This is the e-mail sending page</h1>
-      <form method="post" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <div>
-          <div>
-            <label>
-              Send to user:
-              <input type="text" name="address" />
-            </label>
-          </div>
-          <div>
-            <label>
-              Subject:
-              <input type="text" name="subject" />
-            </label>
-          </div>
-          <div className="container" name="emailText">
-            <MDEditor value={value} onChange={setValue} />
-            {/* <MDEditor.Markdown source={value} /> */}
-          </div>
+          <label>
+            Send to user:
+            <input type="text" name="address" />
+          </label>
+        </div>
+        <div>
+          <label>
+            Subject:
+            <input type="text" name="subject" />
+          </label>
+        </div>
+        <div className="container" name="emailText">
+          <MDEditor value={value} onChange={setValue} />
+          {/* <MDEditor.Markdown source={value} /> */}
         </div>
         <button type="submit" name="save" onClick={clickHandler}>
           Save email
