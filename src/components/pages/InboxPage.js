@@ -4,6 +4,7 @@ import UseGetData from "../../hooks/UseGetData";
 import UsePutData from "../../hooks/UsePutData";
 import { UserContext } from "../../containers/contexts/UserContext";
 import styled from "styled-components";
+import UseDeleteData from "../../hooks/UseDeleteData";
 
 const Row = styled.tr`
   font-weight: ${(props) => (props.isRead ? "" : "bold")};
@@ -37,6 +38,25 @@ const InboxPage = (props) => {
     );
   };
 
+  const deleteClickHandler = (e, id) => {
+    e.stopPropagation();
+    e.currentTarget.closest("tr").remove();
+    UseDeleteData(
+      `http://laramail.com/api/mail/${id}`,
+      user.token,
+      (response) => {
+        if (response.status === 204) {
+          return history.push(`/mail/inbox`);
+        }
+        Object.entries(response).forEach(([k, v]) => {
+          v.forEach((value) => {
+            setErrorMessage((old) => [...old, value]);
+          });
+        });
+      }
+    );
+  };
+
   return (
     <div>
       <h1>This is the inbox page</h1>
@@ -60,6 +80,14 @@ const InboxPage = (props) => {
               <td>{mailData[key]["message"].split(" ")[0]}... </td>
               <td>{mailData[key]["name"]}</td>
               <td>{mailData[key]["created"]}</td>
+              <td>
+                <button
+                  type="button"
+                  onClick={(e) => deleteClickHandler(e, mailData[key]["id"])}
+                >
+                  Delete
+                </button>
+              </td>
             </Row>
           ))}
         </tbody>
