@@ -46,7 +46,7 @@ const InboxPage = (props) => {
       user.token,
       (response) => {
         if (response.status === 204) {
-          return history.push(`/mail/inbox`);
+          return setErrorMessage({ message: "Delete successful!" });
         }
         Object.entries(response).forEach(([k, v]) => {
           v.forEach((value) => {
