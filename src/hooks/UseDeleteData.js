@@ -1,10 +1,14 @@
 import axios from "axios";
 
-const UseDeleteData = (url, dataObject, callback) => {
+const UseDeleteData = (url, token, callback) => {
   const options = {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json, text/plain, */*",
+      Authorization: "Bearer " + token,
+    },
     url: url,
-    method: "put",
-    data: dataObject,
+    method: "delete",
   };
 
   const deleteData = async () => {
