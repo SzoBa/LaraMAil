@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import UseGetData from "../../hooks/UseGetData";
 import UsePutData from "../../hooks/UsePutData";
+import UseDeleteData from "../../hooks/UseDeleteData";
 import { UserContext } from "../../containers/contexts/UserContext";
 
 const DraftPage = (props) => {
@@ -14,6 +15,24 @@ const DraftPage = (props) => {
     setErrorMessage
   )[1];
 
+  const deleteClickHandler = (e, id) => {
+    e.stopPropagation();
+    e.currentTarget.closest("tr").remove();
+    UseDeleteData(
+      `http://laramail.com/api/mail/${id}`,
+      user.token,
+      (response) => {
+        if (response.status === 204) {
+          return setErrorMessage({ message: "Delete successful!" });
+        }
+        Object.entries(response).forEach(([k, v]) => {
+          v.forEach((value) => {
+            setErrorMessage((old) => [...old, value]);
+          });
+        });
+      }
+    );
+  };
   const editClickHandler = (event, props) => {
     UsePutData(
       `http://laramail.com/api/mail/${props.id}`,
@@ -48,9 +67,17 @@ const DraftPage = (props) => {
           {Object.keys(mailData).map((key, index) => (
             <tr key={index} onClick={(e) => editClickHandler(e, mailData[key])}>
               <td>{mailData[key]["subject"]}</td>
-              <td>{mailData[key]["message"]}</td>
+              <td>{mailData[key]["message"].split(" ")[0]}...</td>
               <td>{mailData[key]["name"]}</td>
               <td>{mailData[key]["created"]}</td>
+              <td>
+                <button
+                  type="button"
+                  onClick={(e) => deleteClickHandler(e, mailData[key]["id"])}
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
