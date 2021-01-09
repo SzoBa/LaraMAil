@@ -27,7 +27,7 @@ const SentPage = (props) => {
           {Object.keys(mailData).map((key, index) => (
             <tr key={index}>
               <td>{mailData[key]["subject"]}</td>
-              <td>{mailData[key]["message"]}</td>
+              <td>{mailData[key]["message"].split(" ")[0]}...</td>
               <td>{mailData[key]["name"]}</td>
               <td>{mailData[key]["created"]}</td>
             </tr>
