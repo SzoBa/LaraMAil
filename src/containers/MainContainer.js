@@ -9,6 +9,8 @@ import InboxPage from "../components/pages/InboxPage";
 import SentPage from "../components/pages/SentPage";
 import ComposePage from "../components/pages/ComposePage";
 import DraftPage from "../components/pages/DraftPage";
+import EditPage from "../components/pages/EditPage";
+import ViewPage from "../components/pages/ViewPage";
 
 // background: url(${(props) => props.currentTheme.backgroundImage}) no-repeat
 //   fixed;
@@ -37,10 +39,14 @@ const MainContainer = (props) => {
         <Route exact path="/" component={MainPage} />
         <Route path="/registration" component={RegistrationPage} />
         <Route path="/login" component={LoginPage} />
+
         <Route path="/mail/inbox" component={InboxPage} />
         <Route path="/mail/sent" component={SentPage} />
         <Route path="/mail/compose" component={ComposePage} />
         <Route path="/mail/drafts" component={DraftPage} />
+
+        <Route path="/mail/view/:id" component={ViewPage} />
+        <Route path="/mail/edit/:id" component={EditPage} />
       </RouteContentContainer>
     </MainBody>
   );
