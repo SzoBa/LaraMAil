@@ -23,6 +23,7 @@ const SideBar = (props) => {
       <SidebarLink to="/mail/sent">Sent</SidebarLink>
       <SidebarLink to="/mail/compose">Write mail</SidebarLink>
       <SidebarLink to="/mail/drafts">Drafts</SidebarLink>
+      <SidebarLink to="/mail/recycle-bin">Recycle bin</SidebarLink>
     </SidebarContainer>
   );
 };
