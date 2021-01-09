@@ -4,6 +4,7 @@ import UsePostData from "../../hooks/UsePostData";
 import { UserContext } from "../../containers/contexts/UserContext";
 import MDEditor from "@uiw/react-md-editor";
 import UsePutData from "../../hooks/UsePutData";
+import UseGetData from "../../hooks/UseGetData";
 
 const ComposePage = (props) => {
   const history = useHistory();
@@ -11,17 +12,31 @@ const ComposePage = (props) => {
   const [redirect, setRedirect] = useState(false);
   const [errorMessage, setErrorMessage] = useState([]);
   const [value, setValue] = useState("**Markdown Syntax!!!**");
+  const [addressNames, setAddressNames] = useState([]);
 
   let sendOrSave = "save";
 
+  const registeredUsernames = UseGetData(
+    "http://laramail.com/api/user/list",
+    user.token,
+    setErrorMessage
+  )[1];
+
   useEffect(() => {
+    setAddressNames(registeredUsernames);
     if (redirect) {
       setTimeout(() => history.push("/mail/inbox"), 1500);
     }
-  }, [redirect, history]);
+  }, [registeredUsernames, redirect, history]);
 
   const clickHandler = (event) => {
     sendOrSave = event.target.name;
+  };
+
+  const copyNameClickHandler = (event) => {
+    const nameSelector = document.querySelector("#nameSelector");
+    const nameInput = document.querySelector("#address");
+    nameInput.value = nameSelector.value;
   };
 
   const handleSubmit = (event) => {
@@ -51,7 +66,17 @@ const ComposePage = (props) => {
         <div>
           <label>
             Send to user:
-            <input type="text" name="address" />
+            <input type="text" id="address" name="address" />
+            <select id="nameSelector">
+              {addressNames.map((item, index) => (
+                <option key={index} value={item.name}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
+            <button type="button" onClick={copyNameClickHandler}>
+              Copy name
+            </button>
           </label>
         </div>
         <div>
