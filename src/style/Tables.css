@@ -1,0 +1,26 @@
+table.table-style {
+  font-family: verdana, arial, sans-serif;
+  color: #333333;
+  border: 1px solid #3a3a3a;
+  border-collapse: collapse;
+  max-width: 1200px;
+  margin: auto;
+}
+table.table-style th {
+  border: 1px solid #ffa6a6;
+  padding: 8px;
+  background-color: #d56a6a;
+  color: #ffffff;
+  text-align: center;
+}
+table.table-style tr:hover td {
+  cursor: pointer;
+}
+table.table-style tr:nth-child(even) td {
+  background-color: #f7cfcf;
+}
+table.table-style td {
+  border: 1px solid #ffa6a6;
+  padding: 8px;
+  background-color: #ffffff;
+}
