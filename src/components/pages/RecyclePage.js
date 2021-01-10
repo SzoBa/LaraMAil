@@ -4,6 +4,7 @@ import UseGetData from "../../hooks/UseGetData";
 import UsePutData from "../../hooks/UsePutData";
 import UseDeleteData from "../../hooks/UseDeleteData";
 import { UserContext } from "../../containers/contexts/UserContext";
+import { Table } from "metro4-react";
 
 const RecyclePage = (props) => {
   const history = useHistory();
@@ -58,7 +59,7 @@ const RecyclePage = (props) => {
   return (
     <div>
       <h1>This is the recycle page</h1>
-      <table>
+      <Table cls="table-border">
         <thead>
           <tr>
             <th>Origin</th>
@@ -67,14 +68,13 @@ const RecyclePage = (props) => {
             <th>Sender</th>
             <th>Sent to</th>
             <th>Created at</th>
+            <th>Purge</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {Object.keys(mailData).map((key, index) => (
-            <tr
-              key={index}
-              onClick={(e) => restoreClickHandler(e, mailData[key])}
-            >
+            <tr key={index}>
               <td>
                 {mailData[key]["addressee"] === user
                   ? "Inbox"
@@ -108,7 +108,7 @@ const RecyclePage = (props) => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </Table>
       <div>
         {Object.keys(errorMessage).map((key, index) => (
           <p key={index}>{errorMessage[key]}</p>

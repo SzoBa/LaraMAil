@@ -9,7 +9,7 @@ const NavbarMain = styled.div`
 
 const NavbarTitle = styled.h1`
   color: black;
-  font-size: 4em;
+  font-size: 2em;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 `;
 
@@ -22,10 +22,9 @@ const NavbarLinksContainer = styled.div`
 const NavbarLink = styled(Link)`
   color: black;
   text-decoration: none;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   padding: 10px;
   font-weight: bold;
-  font-size: 2em;
+  font-size: 1em;
   border-radius: 20px;
   visibility: ${(props) =>
     useLocation().pathname === props.to ? "hidden" : ""};

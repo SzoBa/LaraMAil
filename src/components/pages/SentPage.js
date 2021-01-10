@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import UseGetData from "../../hooks/UseGetData";
 import { UserContext } from "../../containers/contexts/UserContext";
 import UseDeleteData from "../../hooks/UseDeleteData";
+import { Table, Button } from "metro4-react";
 
 const SentPage = (props) => {
   const user = useContext(UserContext)[0];
@@ -33,13 +34,14 @@ const SentPage = (props) => {
   return (
     <div>
       <h1>This is the sent page</h1>
-      <table>
+      <Table cls="table-border">
         <thead>
           <tr>
             <th>Subject</th>
             <th>Message</th>
             <th>Sent to</th>
             <th>Created at</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -50,17 +52,17 @@ const SentPage = (props) => {
               <td>{mailData[key]["name"]}</td>
               <td>{mailData[key]["created"]}</td>
               <td>
-                <button
+                <Button
+                  icon="bin"
+                  cls="light mini rounded"
                   type="button"
                   onClick={(e) => deleteClickHandler(e, mailData[key]["id"])}
-                >
-                  Delete
-                </button>
+                />
               </td>
             </tr>
           ))}
         </tbody>
-      </table>
+      </Table>
       <div>
         {Object.keys(errorMessage).map((key, index) => (
           <p key={index}>{errorMessage[key]}</p>

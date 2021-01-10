@@ -4,6 +4,7 @@ import UseGetData from "../../hooks/UseGetData";
 import UsePutData from "../../hooks/UsePutData";
 import UseDeleteData from "../../hooks/UseDeleteData";
 import { UserContext } from "../../containers/contexts/UserContext";
+import { Table, Button } from "metro4-react";
 
 const DraftPage = (props) => {
   const history = useHistory();
@@ -54,34 +55,39 @@ const DraftPage = (props) => {
   return (
     <div>
       <h1>This is the draft page</h1>
-      <table>
+      <Table cls="table-border">
         <thead>
           <tr>
             <th>Subject</th>
             <th>Message</th>
             <th>Sent to</th>
             <th>Created at</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
           {Object.keys(mailData).map((key, index) => (
-            <tr key={index} onClick={(e) => editClickHandler(e, mailData[key])}>
+            <tr
+              key={index}
+              onClick={(e) => editClickHandler(e, mailData[key])}
+              style={{ cursor: "pointer" }}
+            >
               <td>{mailData[key]["subject"]}</td>
               <td>{mailData[key]["message"].split(" ")[0]}...</td>
               <td>{mailData[key]["name"]}</td>
               <td>{mailData[key]["created"]}</td>
               <td>
-                <button
+                <Button
+                  icon="bin"
+                  cls="light mini rounded"
                   type="button"
                   onClick={(e) => deleteClickHandler(e, mailData[key]["id"])}
-                >
-                  Delete
-                </button>
+                />
               </td>
             </tr>
           ))}
         </tbody>
-      </table>
+      </Table>
       <div>
         {Object.keys(errorMessage).map((key, index) => (
           <p key={index}>{errorMessage[key]}</p>

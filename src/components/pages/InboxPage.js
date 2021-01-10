@@ -1,26 +1,45 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import UseGetData from "../../hooks/UseGetData";
 import UsePutData from "../../hooks/UsePutData";
 import { UserContext } from "../../containers/contexts/UserContext";
+import { MailContext } from "../../containers/contexts/MailContext";
 import styled from "styled-components";
 import UseDeleteData from "../../hooks/UseDeleteData";
+import { Table, Button } from "metro4-react";
 
 const Row = styled.tr`
   font-weight: ${(props) => (props.isRead ? "" : "bold")};
+  cursor: pointer;
 `;
 
 const InboxPage = (props) => {
   const history = useHistory();
   const user = useContext(UserContext)[0];
+  const [mailInfo, setMailInfo] = useContext(MailContext);
   const [errorMessage, setErrorMessage] = useState([]);
+
   const mailData = UseGetData(
     "http://laramail.com/api/mail",
     user.token,
     setErrorMessage
   )[1];
 
+  const mailCount =
+    mailData.length > 0
+      ? Object.values(mailData)
+          .map((mail) => (mail.is_read === 1 ? 0 : 1))
+          .reduce((a, b) => a + b, 0)
+      : 0;
+
+  useEffect(() => {
+    setMailInfo({
+      unread: mailCount,
+    });
+  }, [setMailInfo, mailCount]);
+
   const editClickHandler = (event, props) => {
+    setMailInfo((oldInfo) => ({ unread: oldInfo.unread - 1 }));
     UsePutData(
       `http://laramail.com/api/mail/${props.id}`,
       user.token,
@@ -61,6 +80,7 @@ const InboxPage = (props) => {
   const deleteClickHandler = (e, id) => {
     e.stopPropagation();
     e.currentTarget.closest("tr").remove();
+    setMailInfo((oldInfo) => ({ unread: oldInfo.unread - 1 }));
     UseDeleteData(
       `http://laramail.com/api/mail/${id}`,
       user.token,
@@ -79,14 +99,16 @@ const InboxPage = (props) => {
 
   return (
     <div>
-      <h1>This is the inbox page</h1>
-      <table>
+      <h1>Inbox</h1>
+      <Table cls="table-border">
         <thead>
           <tr>
             <th>Subject</th>
             <th>Message</th>
             <th>Author</th>
             <th>Created at</th>
+            <th>Delete</th>
+            <th>Mark as unread</th>
           </tr>
         </thead>
         <tbody>
@@ -101,25 +123,27 @@ const InboxPage = (props) => {
               <td>{mailData[key]["name"]}</td>
               <td>{mailData[key]["created"]}</td>
               <td>
-                <button
+                <Button
+                  icon="bin"
+                  cls="light mini rounded"
                   type="button"
                   onClick={(e) => deleteClickHandler(e, mailData[key]["id"])}
-                >
-                  Delete
-                </button>
+                />
               </td>
               <td>
-                <button
+                <Button
+                  cls="light mini rounded"
                   type="button"
                   onClick={(e) => markUnreadClickHandler(e, mailData[key])}
                 >
                   Mark as unread
-                </button>
+                </Button>
               </td>
             </Row>
           ))}
         </tbody>
-      </table>
+      </Table>
+
       <div>
         {Object.keys(errorMessage).map((key, index) => (
           <p key={index}>{errorMessage[key]}</p>
