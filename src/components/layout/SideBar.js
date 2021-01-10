@@ -8,7 +8,7 @@ const SidebarContainer = styled.div`
   display: flex;
   flex-direction: column;
   position: fixed;
-  left: 5px;import { UserContext } from "../../containers/contexts/UserContext";
+  left: 5px;
 `;
 
 const SidebarLink = styled(Link)``;

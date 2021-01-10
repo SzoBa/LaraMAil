@@ -44,6 +44,9 @@ const Navbar = (props) => {
           <NavbarLink to="/">Main Page</NavbarLink>
           <NavbarLink to="/registration">Registration</NavbarLink>
           <NavbarLink to="/login">Login</NavbarLink>
+          <NavbarLink to={currentUser.token ? "/logout" : ""}>
+            Logout
+          </NavbarLink>
           <div>
             {currentUser.username
               ? "Logged in as  " + currentUser.username
