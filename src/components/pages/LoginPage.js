@@ -25,7 +25,7 @@ const LoginPage = (props) => {
             username: response.data.username,
             token: response.data.token,
           });
-          history.push("/mail/inbox");
+          return history.push("/mail/inbox");
         }
         Object.entries(response).forEach(([k, v]) => {
           v.forEach((value) => {

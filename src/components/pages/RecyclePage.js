@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
 import UseGetData from "../../hooks/UseGetData";
 import UsePutData from "../../hooks/UsePutData";
 import UseDeleteData from "../../hooks/UseDeleteData";
@@ -7,7 +6,6 @@ import { UserContext } from "../../containers/contexts/UserContext";
 import { Table } from "metro4-react";
 
 const RecyclePage = (props) => {
-  const history = useHistory();
   const user = useContext(UserContext)[0];
   const [errorMessage, setErrorMessage] = useState([]);
 

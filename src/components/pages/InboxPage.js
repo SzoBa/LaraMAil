@@ -16,7 +16,7 @@ const Row = styled.tr`
 const InboxPage = (props) => {
   const history = useHistory();
   const user = useContext(UserContext)[0];
-  const [mailInfo, setMailInfo] = useContext(MailContext);
+  const setMailInfo = useContext(MailContext)[1];
   const [errorMessage, setErrorMessage] = useState([]);
 
   const mailData = UseGetData(

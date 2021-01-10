@@ -26,13 +26,11 @@ const useGetMultipleData = (
     };
 
     const getData = async () => {
-      const response1 = await axios(options1).then((resp) => {
+      await axios(options1).then((resp) => {
         setFirstFetchedData(resp.data);
         options2.url = url2 + resp.data[linkerParam];
       });
-      const response2 = await axios(options2).then((resp) =>
-        setSecondFetchedData(resp.data)
-      );
+      await axios(options2).then((resp) => setSecondFetchedData(resp.data));
     };
     getData().catch((error) => {
       setErrorMessage(error.response.data);
