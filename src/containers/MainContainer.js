@@ -4,6 +4,7 @@ import Navbar from "../components/layout/Navbar";
 import MainPage from "../components/pages/MainPage";
 import RegistrationPage from "../components/pages/RegistrationPage";
 import LoginPage from "../components/pages/LoginPage";
+import LogoutPage from "../components/pages/LogoutPage";
 import SideBar from "../components/layout/SideBar";
 import InboxPage from "../components/pages/InboxPage";
 import SentPage from "../components/pages/SentPage";
@@ -40,6 +41,7 @@ const MainContainer = (props) => {
         <Route exact path="/" component={MainPage} />
         <Route path="/registration" component={RegistrationPage} />
         <Route path="/login" component={LoginPage} />
+        <Route path="/logout" component={LogoutPage} />
 
         <Route path="/mail/inbox" component={InboxPage} />
         <Route path="/mail/sent" component={SentPage} />
