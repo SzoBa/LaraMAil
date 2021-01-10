@@ -4,6 +4,12 @@ import UsePutData from "../../hooks/UsePutData";
 import UseDeleteData from "../../hooks/UseDeleteData";
 import { UserContext } from "../../containers/contexts/UserContext";
 import { Table } from "metro4-react";
+import styled from "styled-components";
+
+const RecyclePageDiv = styled.div`
+  text-align: center;
+  padding-left: 50px;
+`;
 
 const RecyclePage = (props) => {
   const user = useContext(UserContext)[0];
@@ -55,9 +61,9 @@ const RecyclePage = (props) => {
   };
 
   return (
-    <div>
-      <h1>This is the recycle page</h1>
-      <Table cls="table-border">
+    <RecyclePageDiv>
+      <h3>Deleted mails</h3>
+      <Table cls="table-border table-style">
         <thead>
           <tr>
             <th>Origin</th>
@@ -67,7 +73,7 @@ const RecyclePage = (props) => {
             <th>Sent to</th>
             <th>Created at</th>
             <th>Purge</th>
-            <th></th>
+            <th>Restore</th>
           </tr>
         </thead>
         <tbody>
@@ -92,7 +98,7 @@ const RecyclePage = (props) => {
                     forceDeleteClickHandler(e, mailData[key]["id"])
                   }
                 >
-                  Delete
+                  Purge
                 </button>
               </td>
               <td>
@@ -112,7 +118,7 @@ const RecyclePage = (props) => {
           <p key={index}>{errorMessage[key]}</p>
         ))}
       </div>
-    </div>
+    </RecyclePageDiv>
   );
 };
 

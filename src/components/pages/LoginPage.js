@@ -2,6 +2,12 @@ import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import UsePostData from "../../hooks/UsePostData";
 import { UserContext } from "../../containers/contexts/UserContext";
+import styled from "styled-components";
+import "../../style/Forms.css";
+
+const LoginPageDiv = styled.div`
+  text-align: center;
+`;
 
 const LoginPage = (props) => {
   const history = useHistory();
@@ -37,29 +43,25 @@ const LoginPage = (props) => {
   };
 
   return (
-    <div>
-      <h1>This is the login page</h1>
-      <form method="post" onSubmit={handleSubmit}>
-        <div>
-          <label>
-            Email:
+    <LoginPageDiv>
+      <div id="main_login">
+        <div id="content_div_login">
+          <h2>Login</h2>
+          <form method="post" onSubmit={handleSubmit}>
+            <label>Email:</label>
             <input type="email" name="email" />
-          </label>
-        </div>
-        <div>
-          <label>
-            Password:
+            <label>Password: </label>
             <input type="text" name="password" />
-          </label>
+            <button type="submit">Login</button>
+          </form>
+          <div>
+            {errorMessage === null
+              ? ""
+              : errorMessage.map((data, index) => <p key={index}>{data}</p>)}
+          </div>
         </div>
-        <button type="submit">Login</button>
-      </form>
-      <div>
-        {errorMessage === null
-          ? ""
-          : errorMessage.map((data, index) => <p key={index}>{data}</p>)}
       </div>
-    </div>
+    </LoginPageDiv>
   );
 };
 

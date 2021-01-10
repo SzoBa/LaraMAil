@@ -5,6 +5,12 @@ import UsePutData from "../../hooks/UsePutData";
 import UseDeleteData from "../../hooks/UseDeleteData";
 import { UserContext } from "../../containers/contexts/UserContext";
 import { Table, Button } from "metro4-react";
+import styled from "styled-components";
+
+const DraftPageDiv = styled.div`
+  text-align: center;
+  padding-left: 50px;
+`;
 
 const DraftPage = (props) => {
   const history = useHistory();
@@ -53,9 +59,9 @@ const DraftPage = (props) => {
   };
 
   return (
-    <div>
-      <h1>This is the draft page</h1>
-      <Table cls="table-border">
+    <DraftPageDiv>
+      <h3>Draft mails</h3>
+      <Table cls="table-border table-style">
         <thead>
           <tr>
             <th>Subject</th>
@@ -93,7 +99,7 @@ const DraftPage = (props) => {
           <p key={index}>{errorMessage[key]}</p>
         ))}
       </div>
-    </div>
+    </DraftPageDiv>
   );
 };
 

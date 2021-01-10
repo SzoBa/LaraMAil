@@ -7,10 +7,15 @@ import { MailContext } from "../../containers/contexts/MailContext";
 import styled from "styled-components";
 import UseDeleteData from "../../hooks/UseDeleteData";
 import { Table, Button } from "metro4-react";
+import "../../style/Tables.css";
+
+const InboxPageDiv = styled.div`
+  text-align: center;
+  padding-left: 50px;
+`;
 
 const Row = styled.tr`
   font-weight: ${(props) => (props.isRead ? "" : "bold")};
-  cursor: pointer;
 `;
 
 const InboxPage = (props) => {
@@ -98,9 +103,9 @@ const InboxPage = (props) => {
   };
 
   return (
-    <div>
-      <h1>Inbox</h1>
-      <Table cls="table-border">
+    <InboxPageDiv>
+      <h3>Inbox</h3>
+      <Table cls="table-border table-style">
         <thead>
           <tr>
             <th>Subject</th>
@@ -149,7 +154,7 @@ const InboxPage = (props) => {
           <p key={index}>{errorMessage[key]}</p>
         ))}
       </div>
-    </div>
+    </InboxPageDiv>
   );
 };
 

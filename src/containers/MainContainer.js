@@ -13,23 +13,32 @@ import DraftPage from "../components/pages/DraftPage";
 import EditPage from "../components/pages/EditPage";
 import ViewPage from "../components/pages/ViewPage";
 import RecyclePage from "../components/pages/RecyclePage";
+import background1 from "../images/background1.png";
 
-// background: url(${(props) => props.currentTheme.backgroundImage}) no-repeat
-//   fixed;
-// color: ${(props) => props.currentTheme.textColor};
-// background-size: cover;
 const MainBody = styled.div`
   min-height: 100%;
   width: 100%;
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.4;
   box-sizing: border-box;
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+    z-index: -1;
+    background: url(${background1}) no-repeat;
+    background-size: cover;
+    opacity: 0.3;
+  }
 `;
 
 const RouteContentContainer = styled.div`
-  position: fixed;
   min-height: 100%;
-  left: 150px;
+  width: 100%;
 `;
 
 const MainContainer = (props) => {

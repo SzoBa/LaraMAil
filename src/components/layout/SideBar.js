@@ -9,6 +9,9 @@ const SidebarContainer = styled.div`
   flex-direction: column;
   position: fixed;
   left: 5px;
+  top: 35%;
+  border: 2px solid black;
+  z-index: 9999;
 `;
 
 const SidebarLink = styled(Link)``;

@@ -3,6 +3,12 @@ import UseGetData from "../../hooks/UseGetData";
 import { UserContext } from "../../containers/contexts/UserContext";
 import UseDeleteData from "../../hooks/UseDeleteData";
 import { Table, Button } from "metro4-react";
+import styled from "styled-components";
+
+const SentPageDiv = styled.div`
+  text-align: center;
+  padding-left: 50px;
+`;
 
 const SentPage = (props) => {
   const user = useContext(UserContext)[0];
@@ -32,9 +38,9 @@ const SentPage = (props) => {
     );
   };
   return (
-    <div>
-      <h1>This is the sent page</h1>
-      <Table cls="table-border">
+    <SentPageDiv>
+      <h3>Sent mails</h3>
+      <Table cls="table-border table-style">
         <thead>
           <tr>
             <th>Subject</th>
@@ -68,7 +74,7 @@ const SentPage = (props) => {
           <p key={index}>{errorMessage[key]}</p>
         ))}
       </div>
-    </div>
+    </SentPageDiv>
   );
 };
 
