@@ -8,8 +8,10 @@
     "@testing-library/user-event": "^12.6.0",
     "@uiw/react-md-editor": "^2.0.3",
     "axios": "^0.21.1",
+    "customize-cra": "^1.0.0",
     "metro4-react": "^0.1.4",
     "react": "^17.0.1",
+    "react-app-rewired": "^2.1.8",
     "react-dom": "^17.0.1",
     "react-external-link": "^1.2.0",
     "react-markdown": "^5.0.3",
@@ -20,9 +22,9 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
