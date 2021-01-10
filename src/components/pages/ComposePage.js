@@ -5,6 +5,13 @@ import { UserContext } from "../../containers/contexts/UserContext";
 import MDEditor from "@uiw/react-md-editor";
 import UsePutData from "../../hooks/UsePutData";
 import UseGetData from "../../hooks/UseGetData";
+import styled from "styled-components";
+import "../../style/EditAreas.css";
+
+const ComposePageDiv = styled.div`
+  text-align: center;
+  padding-left: 50px;
+`;
 
 const ComposePage = (props) => {
   const history = useHistory();
@@ -60,48 +67,54 @@ const ComposePage = (props) => {
   };
 
   return (
-    <div>
-      <h1>This is the e-mail sending page</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            Send to user:
-            <input type="text" id="address" name="address" />
-            <select id="nameSelector">
-              {addressNames.map((item, index) => (
-                <option key={index} value={item.name}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
+    <ComposePageDiv>
+      <div id="main_compose">
+        <div id="content_compose">
+          <h3>Compose mail</h3>
+          <form onSubmit={handleSubmit}>
+            <div id="helper_compose">
+              <div id="helper_content1">
+                <label>Send to user:</label>
+                <input type="text" id="address" name="address" />
+              </div>
+              <div id="helper_content2">
+                <label>Registered users:</label>
+                <select id="nameSelector">
+                  {addressNames.map((item, index) => (
+                    <option key={index} value={item.name}>
+                      {item.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
             <button type="button" onClick={copyNameClickHandler}>
               Copy name
             </button>
-          </label>
+            <br />
+            <div id="subject_container">
+              <label>Subject:</label>
+              <input id="subject" type="text" name="subject" />
+            </div>
+            <div className="container" name="emailText">
+              <MDEditor value={value} onChange={setValue} />
+              {/* <MDEditor.Markdown source={value} /> */}
+            </div>
+            <button type="submit" name="save" id="save" onClick={clickHandler}>
+              Save email
+            </button>
+            <button type="submit" name="send" id="send" onClick={clickHandler}>
+              Send mail
+            </button>
+          </form>
+          <div>
+            {errorMessage === null
+              ? ""
+              : errorMessage.map((data, index) => <p key={index}>{data}</p>)}
+          </div>
         </div>
-        <div>
-          <label>
-            Subject:
-            <input type="text" name="subject" />
-          </label>
-        </div>
-        <div className="container" name="emailText">
-          <MDEditor value={value} onChange={setValue} />
-          {/* <MDEditor.Markdown source={value} /> */}
-        </div>
-        <button type="submit" name="save" onClick={clickHandler}>
-          Save email
-        </button>
-        <button type="submit" name="send" id="send" onClick={clickHandler}>
-          Send mail
-        </button>
-      </form>
-      <div>
-        {errorMessage === null
-          ? ""
-          : errorMessage.map((data, index) => <p key={index}>{data}</p>)}
       </div>
-    </div>
+    </ComposePageDiv>
   );
 };
 

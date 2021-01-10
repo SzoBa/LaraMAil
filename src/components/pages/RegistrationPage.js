@@ -7,6 +7,7 @@ import "../../style/Forms.css";
 
 const RegistrationPageDiv = styled.div`
   text-align: center;
+  padding-left: 50px;
 `;
 
 const RegistrationPage = (props) => {

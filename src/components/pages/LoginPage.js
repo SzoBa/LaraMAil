@@ -7,6 +7,7 @@ import "../../style/Forms.css";
 
 const LoginPageDiv = styled.div`
   text-align: center;
+  padding-left: 50px;
 `;
 
 const LoginPage = (props) => {

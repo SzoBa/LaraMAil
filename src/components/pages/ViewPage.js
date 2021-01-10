@@ -2,6 +2,13 @@ import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "../../containers/contexts/UserContext";
 import MDEditor from "@uiw/react-md-editor";
 import useGetMultipleData from "../../hooks/UseGetMultipleData";
+import styled from "styled-components";
+import "../../style/EditAreas.css";
+
+const ViewPageDiv = styled.div`
+  text-align: center;
+  padding-left: 50px;
+`;
 
 const ViewPage = (props) => {
   const user = useContext(UserContext)[0];
@@ -22,26 +29,22 @@ const ViewPage = (props) => {
     setSenderData(data[1]);
   }, [data]);
   return (
-    <div>
-      <h1>This is the e-mail view page</h1>
-      <div>
-        <label>
-          From user:
-          <div id="fromUser">{sender.name ? sender.name : <br />}</div>
-        </label>
+    <ViewPageDiv>
+      <h3>View mail</h3>
+      <div id="sender_content">
+        <h5>From user: </h5>
+        <div id="fromUser">{sender.name ? sender.name : <br />}</div>
       </div>
-      <div>
-        <label>
-          Text:
-          <MDEditor.Markdown source={mailData ? mailData.message : ""} />
-        </label>
+      <div id="message_content">
+        <h3>Message text: </h3>
+        <MDEditor.Markdown source={mailData ? mailData.message : ""} />
       </div>
       <div>
         {Object.keys(errorMessage).map((key, index) => (
           <p key={index}>{errorMessage[key]}</p>
         ))}
       </div>
-    </div>
+    </ViewPageDiv>
   );
 };
 
