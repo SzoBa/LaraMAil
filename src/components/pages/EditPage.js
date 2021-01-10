@@ -5,6 +5,13 @@ import UsePutData from "../../hooks/UsePutData";
 import UsePostData from "../../hooks/UsePostData";
 import { UserContext } from "../../containers/contexts/UserContext";
 import MDEditor from "@uiw/react-md-editor";
+import styled from "styled-components";
+import "../../style/EditAreas.css";
+
+const EditPageDiv = styled.div`
+  text-align: center;
+  padding-left: 50px;
+`;
 
 const EditPage = (props) => {
   const history = useHistory();
@@ -55,38 +62,40 @@ const EditPage = (props) => {
   };
 
   return (
-    <div>
-      <h1>This is the e-mail editing page</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            Send to user:
-            <input type="text" name="address" />
-          </label>
+    <EditPageDiv>
+      <div id="main_edit">
+        <div id="content_edit">
+          <h3>Edit e-mail</h3>
+          <form onSubmit={handleSubmit}>
+            <div id="helper_compose">
+              <div id="helper_content1">
+                <label>Send to user:</label>
+                <input type="text" name="address" />
+              </div>
+              <div id="helper_content2">
+                <label>Subject:</label>
+                <input type="text" name="subject" />
+              </div>
+            </div>
+            <div className="container" name="emailText">
+              <MDEditor value={message} onChange={setMessage} />
+              {/* <MDEditor.Markdown source={message} /> */}
+            </div>
+            <button type="submit" name="save" onClick={clickHandler}>
+              Save email
+            </button>
+            <button type="submit" name="send" id="send" onClick={clickHandler}>
+              Send mail
+            </button>
+          </form>
+          <div>
+            {errorMessage === null
+              ? ""
+              : errorMessage.map((data, index) => <p key={index}>{data}</p>)}
+          </div>
         </div>
-        <div>
-          <label>
-            Subject:
-            <input type="text" name="subject" />
-          </label>
-        </div>
-        <div className="container" name="emailText">
-          <MDEditor value={message} onChange={setMessage} />
-          <MDEditor.Markdown source={message} />
-        </div>
-        <button type="submit" name="save" onClick={clickHandler}>
-          Save email
-        </button>
-        <button type="submit" name="send" id="send" onClick={clickHandler}>
-          Send mail
-        </button>
-      </form>
-      <div>
-        {errorMessage === null
-          ? ""
-          : errorMessage.map((data, index) => <p key={index}>{data}</p>)}
       </div>
-    </div>
+    </EditPageDiv>
   );
 };
 
